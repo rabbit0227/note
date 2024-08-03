@@ -12,10 +12,17 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // MongoDB Connection
-mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose
+  .connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log("Connected to MongoDB");
+  })
+  .catch((err) => {
+    console.error("Failed to connect to MongoDB", err);
+  });
 
 // Note Schema
 const noteSchema = new mongoose.Schema({
@@ -26,12 +33,12 @@ const noteSchema = new mongoose.Schema({
 const Note = mongoose.model("Note", noteSchema);
 
 // Routes
-app.get("/note", async (req, res) => {
+app.get("/api/note", async (req, res) => {
   const notes = await Note.find();
   res.json(notes);
 });
 
-app.post("/note", async (req, res) => {
+app.post("/api/note", async (req, res) => {
   const newNote = new Note({
     title: req.body.title,
     text: req.body.text,
@@ -40,12 +47,12 @@ app.post("/note", async (req, res) => {
   res.status(201).json(newNote);
 });
 
-app.delete("/note/:id", async (req, res) => {
+app.delete("/api/note/:id", async (req, res) => {
   await Note.findByIdAndDelete(req.params.id);
   res.status(204).send();
 });
 
-app.put("/note/:id", async (req, res) => {
+app.put("/api/note/:id", async (req, res) => {
   const updatedNote = await Note.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
   });
