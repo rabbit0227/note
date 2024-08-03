@@ -22,18 +22,18 @@ mongoose.connect(process.env.MONGODB_URI, {
 
 // Routes
 
-// Get all notes
-app.get("/notes", async (req, res) => {
+// Get all note
+app.get("/note", async (req, res) => {
   try {
-    const notes = await Note.find();
-    res.json(notes);
+    const note = await Note.find();
+    res.json(note);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
 // Create a new note
-app.post("/notes", async (req, res) => {
+app.post("/note", async (req, res) => {
   try {
     const newNote = new Note({
       title: req.body.title,
@@ -47,7 +47,7 @@ app.post("/notes", async (req, res) => {
 });
 
 // Update a note
-app.put("/notes/:id", async (req, res) => {
+app.put("/note/:id", async (req, res) => {
   try {
     const updatedNote = await Note.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
@@ -59,7 +59,7 @@ app.put("/notes/:id", async (req, res) => {
 });
 
 // Delete a note
-app.delete("/notes/:id", async (req, res) => {
+app.delete("/note/:id", async (req, res) => {
   try {
     await Note.findByIdAndDelete(req.params.id);
     res.status(204).send();

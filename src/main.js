@@ -6,7 +6,7 @@ document
     const title = document.getElementById("note-title").value;
     const text = document.getElementById("note-text").value;
 
-    const response = await fetch("http://localhost:5000/notes", {
+    const response = await fetch("http://localhost:5000/note", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -22,7 +22,7 @@ document
 
 async function deleteCard(button) {
   const noteId = button.dataset.id;
-  await fetch(`http://localhost:5000/notes/${noteId}`, {
+  await fetch(`http://localhost:5000/note/${noteId}`, {
     method: "DELETE",
   });
   button.parentElement.remove();
@@ -37,7 +37,7 @@ async function editCard(button) {
   document.getElementById("note-title").value = title;
   document.getElementById("note-text").value = text;
 
-  await fetch(`http://localhost:5000/notes/${noteId}`, {
+  await fetch(`http://localhost:5000/note/${noteId}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -71,13 +71,13 @@ function addNoteToDOM(note) {
     <button class="absolute top-2 right-16 text-blue-500 hover:text-blue-700" data-id="${note._id}" onclick="editCard(this)">Edit</button>
   `;
 
-  document.getElementById("notes-container").appendChild(noteCard);
+  document.getElementById("note-container").appendChild(noteCard);
 }
 
-async function loadNotes() {
-  const response = await fetch("http://localhost:5000/notes");
-  const notes = await response.json();
-  notes.forEach(addNoteToDOM);
+async function loadnote() {
+  const response = await fetch("http://localhost:5000/note");
+  const note = await response.json();
+  note.forEach(addNoteToDOM);
 }
 
-loadNotes();
+loadnote();
