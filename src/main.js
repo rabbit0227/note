@@ -6,7 +6,7 @@ document
     const title = document.getElementById("note-title").value;
     const text = document.getElementById("note-text").value;
 
-    const response = await fetch("http://localhost:5000/note", {
+    const response = await fetch("https://note-puce.vercel.app/api/note", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -22,7 +22,7 @@ document
 
 async function deleteCard(button) {
   const noteId = button.dataset.id;
-  await fetch(`http://localhost:5000/note/${noteId}`, {
+  await fetch(`https://note-puce.vercel.app/api/note/${noteId}`, {
     method: "DELETE",
   });
   button.parentElement.remove();
@@ -37,7 +37,7 @@ async function editCard(button) {
   document.getElementById("note-title").value = title;
   document.getElementById("note-text").value = text;
 
-  await fetch(`http://localhost:5000/note/${noteId}`, {
+  await fetch(`https://note-puce.vercel.app/api/note/${noteId}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -75,7 +75,7 @@ function addNoteToDOM(note) {
 }
 
 async function loadnote() {
-  const response = await fetch("http://localhost:5000/note");
+  const response = await fetch("https://note-puce.vercel.app/api/note");
   const note = await response.json();
   note.forEach(addNoteToDOM);
 }
