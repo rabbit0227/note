@@ -6,10 +6,6 @@
       "use": "@vercel/node"
     }
   ],
-  "env": {
-    "MONGODB_URI": "@mongodb-uri",
-    "PORT": "5000"
-  },
   "routes": [
     {
       "src": "/(.*)",
