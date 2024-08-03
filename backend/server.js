@@ -7,37 +7,32 @@ require("dotenv").config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// Import the Note model
+const Note = require("./models/note");
+
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
 
 // MongoDB Connection
-mongoose
-  .connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log("MongoDB connected"))
-  .catch((err) => console.error("MongoDB connection error:", err));
-
-// Note Schema
-const noteSchema = new mongoose.Schema({
-  title: String,
-  text: String,
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
 });
 
-const Note = mongoose.model("Note", noteSchema);
-
 // Routes
+
+// Get all notes
 app.get("/notes", async (req, res) => {
   try {
     const notes = await Note.find();
     res.json(notes);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 });
 
+// Create a new note
 app.post("/notes", async (req, res) => {
   try {
     const newNote = new Note({
@@ -46,28 +41,30 @@ app.post("/notes", async (req, res) => {
     });
     await newNote.save();
     res.status(201).json(newNote);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 });
 
-app.delete("/notes/:id", async (req, res) => {
-  try {
-    await Note.findByIdAndDelete(req.params.id);
-    res.status(204).send();
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
-
+// Update a note
 app.put("/notes/:id", async (req, res) => {
   try {
     const updatedNote = await Note.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
     });
     res.json(updatedNote);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Delete a note
+app.delete("/notes/:id", async (req, res) => {
+  try {
+    await Note.findByIdAndDelete(req.params.id);
+    res.status(204).send();
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 });
 
