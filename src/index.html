@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Note Taking App</title>
+    <link href="output.css" rel="stylesheet" />
+  </head>
+  <body class="bg-green-100 font-sans">
+    <!-- Container -->
+    <div class="container mx-auto p-6">
+      <!-- Title -->
+      <h1 class="text-3xl font-bold mb-4">Note Taking App</h1>
+
+      <!-- Form -->
+      <form id="note-form" class="mb-6">
+        <div class="mb-4">
+          <label for="note-title" class="block text-lg font-medium mb-2"
+            >Title</label
+          >
+          <input
+            type="text"
+            id="note-title"
+            class="w-full p-2 border border-gray-300 rounded"
+            required
+          />
+        </div>
+        <div class="mb-4">
+          <label for="note-text" class="block text-lg font-medium mb-2"
+            >Note</label
+          >
+          <textarea
+            id="note-text"
+            rows="4"
+            class="w-full p-2 border border-gray-300 rounded"
+            required
+          ></textarea>
+        </div>
+        <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded">
+          Add Note
+        </button>
+      </form>
+
+      <!-- Notes Container -->
+      <div id="notes-container" class="space-y-4">
+        <!-- Note Cards will be dynamically added here -->
+      </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="main.js"></script>
+  </body>
+</html>
